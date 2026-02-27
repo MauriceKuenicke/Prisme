@@ -26,7 +26,6 @@ jobs:
         shell: bash
         run: |
           echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
-          echo "NIGHTLY_DATE=$(date -u +'%Y%m%d')" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -47,7 +46,6 @@ jobs:
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:nightly
-            ${{ env.IMAGE_NAME }}:nightly-${{ env.NIGHTLY_DATE }}
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
@@ -62,6 +60,5 @@ jobs:
             echo "### Nightly Docker image published"
             echo ""
             echo "- Image: \`${IMAGE_NAME}\`"
-            echo "- Tags: \`nightly\`, \`nightly-${NIGHTLY_DATE}\`"
             echo "- Digest: \`${{ steps.build.outputs.digest }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
