@@ -1,0 +1,114 @@
+name: Version Docker Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: version-docker-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set image coordinates and version
+        shell: bash
+        run: |
+          RAW_VERSION="${GITHUB_REF_NAME}"
+          if [[ ! "${RAW_VERSION}" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            echo "Tag '${RAW_VERSION}' is not strict SemVer with v-prefix. Use vX.Y.Z."
+            exit 1
+          fi
+
+          VERSION="${RAW_VERSION#v}"
+
+          echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/prisme" >> "$GITHUB_ENV"
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Resolve publish tags
+        shell: bash
+        run: |
+          git fetch --force --tags
+
+          HIGHEST_VERSION="$(
+            git tag -l \
+              | sed -E 's/^v//' \
+              | grep -E '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$' \
+              | sort -Vu \
+              | tail -n 1
+          )" || true
+
+          if [[ -z "${HIGHEST_VERSION}" ]]; then
+            echo "No SemVer tags found in repository."
+            exit 1
+          fi
+
+          if [[ "${VERSION}" == "${HIGHEST_VERSION}" ]]; then
+            {
+              echo "DOCKER_TAGS<<EOF"
+              echo "${IMAGE_NAME}:${VERSION}"
+              echo "${IMAGE_NAME}:latest"
+              echo "EOF"
+              echo "PUSHED_LATEST=true"
+            } >> "$GITHUB_ENV"
+          else
+            {
+              echo "DOCKER_TAGS<<EOF"
+              echo "${IMAGE_NAME}:${VERSION}"
+              echo "EOF"
+              echo "PUSHED_LATEST=false"
+            } >> "$GITHUB_ENV"
+          fi
+
+          echo "HIGHEST_VERSION=${HIGHEST_VERSION}" >> "$GITHUB_ENV"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push release images
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_TAGS }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title=${{ github.event.repository.name }}
+            org.opencontainers.image.version=${{ env.VERSION }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Add run summary
+        shell: bash
+        run: |
+          {
+            echo "### Version Docker images published"
+            echo ""
+            echo "- Image: \`${IMAGE_NAME}\`"
+            echo "- Version tag: \`${VERSION}\`"
+            echo "- Highest SemVer in repo: \`${HIGHEST_VERSION}\`"
+            echo "- Latest updated: \`${PUSHED_LATEST}\`"
+            echo "- Digest: \`${{ steps.build.outputs.digest }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
