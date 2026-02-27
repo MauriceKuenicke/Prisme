@@ -2,8 +2,8 @@
 
 Prismé is an open-source consultant profile management app for teams that need to collect consultant experience, build profile variants quickly, and export polished PDF profiles.
 
-![Profile Builder](homepage/img.png)
-![PDF Export Preview](homepage/img_1.png)
+![Profile Builder](docs/img.png)
+![PDF Export Preview](docs/img_1.png)
 
 ------
 ## What It Does
