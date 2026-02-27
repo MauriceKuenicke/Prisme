@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Prisme is a free, open-source consultant profile management tool for building polished client-ready profiles."
+    />
+    <title>Prisme | Free Open-Source Consultant Profile Builder</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-a" aria-hidden="true"></div>
+    <div class="bg-orb orb-b" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#home" aria-label="Prisme home">
+          <span class="brand-mark">P</span>
+          <span class="brand-text">Prisme</span>
+        </a>
+
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" id="site-nav">
+          <a href="#overview">Overview</a>
+          <a href="#features">Features</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#roles">Access Model</a>
+          <a href="https://github.com/MauriceKuenicke/Tessera" target="_blank">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <p class="eyebrow">Consultant Profile Operations</p>
+            <h1>Open-source consultant profile management for delivery teams.</h1>
+            <p class="hero-lead">
+              Prisme is free to use and built for teams that need a reliable way to collect consultant content, assemble
+              profile variants, and export polished PDFs without manual copy-paste.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#overview">Explore Features</a>
+              <a class="btn btn-ghost" href="#contact">Get Started Free</a>
+            </div>
+            <div class="hero-metrics">
+              <article>
+                <h3>Free and open source</h3>
+                <p>Self-host, customize, and use with no licensing cost.</p>
+              </article>
+              <article>
+                <h3>Admin and consultant flows</h3>
+                <p>Admin portal + secure temporary edit links for consultants.</p>
+              </article>
+              <article>
+                <h3>Production-ready output</h3>
+                <p>PWA install support plus client-ready PDF profile exports.</p>
+              </article>
+            </div>
+          </div>
+
+          <aside class="hero-preview reveal delay-1">
+            <div class="preview-stack">
+              <div class="preview-shell preview-shell-primary">
+                <img
+                  src="./img.png"
+                  alt="Prisme profile builder screenshot"
+                  class="preview-img"
+                  width="1395"
+                  height="755"
+                  decoding="async"
+                  fetchpriority="high"
+                  sizes="(max-width: 1080px) 100vw, 50vw"
+                >
+              </div>
+              <div class="preview-shell preview-shell-secondary">
+                <img
+                  src="./img_1.png"
+                  alt="Prisme profile export skills overview screenshot"
+                  class="preview-img"
+                  width="555"
+                  height="523"
+                  decoding="async"
+                  loading="lazy"
+                  sizes="(max-width: 1080px) 88vw, 34vw"
+                >
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section" id="overview">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Platform Overview</p>
+            <h2>A focused open-source system for profile quality, speed, and consistency.</h2>
+          </div>
+
+          <div class="overview-grid">
+            <article class="overview-card reveal">
+              <h3>Open source by design</h3>
+              <p>
+                Prisme is a free tool you can run and manage in your own environment using a single docker image.
+              </p>
+            </article>
+            <article class="overview-card reveal delay-1">
+              <h3>One simple workflow</h3>
+              <p>
+                Add consultants, generate edit links, collect building blocks, build profiles, save
+                profile versions, and export client-ready PDFs.
+              </p>
+            </article>
+            <article class="overview-card reveal delay-2">
+              <h3>Keep access boundaries clear</h3>
+              <p>
+                Admin accounts are for people managing profiles. Consultants can contribute content through temporary
+                links, without the need for any additional accounts.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-muted" id="features">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Core Features</p>
+            <h2>Everything needed to move from profile draft to final profile export.</h2>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature-card reveal">
+              <p class="feature-tag">Admin Portal</p>
+              <h3>Single workspace</h3>
+              <p>Manage consultants, generate edit links, view, and edit profiles from one dashboard.</p>
+            </article>
+            <article class="feature-card reveal delay-1">
+              <p class="feature-tag">Consultant Portal</p>
+              <h3>Temporary edit links</h3>
+              <p>Consultants edit their content blocks via time-limited links with no account needed.</p>
+            </article>
+            <article class="feature-card reveal delay-2">
+              <p class="feature-tag">Profile Builder</p>
+              <h3>Block selection and tailoring</h3>
+              <p>Select Projects, Skills, Miscellaneous, and Certifications and customize text per opportunity.</p>
+            </article>
+            <article class="feature-card reveal">
+              <p class="feature-tag">Governance</p>
+              <h3>Super admin controls</h3>
+              <p>Manage elevated permissions and access to the profile builder from inside the application.</p>
+            </article>
+            <article class="feature-card reveal delay-1">
+              <p class="feature-tag">Output</p>
+              <h3>Readable PDF export</h3>
+              <p>Export clean profile PDFs with modern layout and dense skills visualization.</p>
+            </article>
+            <article class="feature-card reveal delay-2">
+              <p class="feature-tag">Desktop Application</p>
+              <h3>Install on your desktop</h3>
+              <p>Install as a PWA app on your local system and use Prisme like a desktop application.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="workflow">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">How It Works</p>
+            <h2>From Add Consultant to Export PDF in a single repeatable flow.</h2>
+          </div>
+
+          <ol class="workflow-list">
+            <li class="workflow-step reveal">
+              <span class="step-number">01</span>
+              <div>
+                <h3>Add consultant and share edit link</h3>
+                <p>Create consultant records and generate temporary links so consultants can update their own information blocks.</p>
+              </div>
+            </li>
+            <li class="workflow-step reveal delay-1">
+              <span class="step-number">02</span>
+              <div>
+                <h3>Build profile version by context</h3>
+                <p>Select and refine blocks in the profile builder, then save a named profile version for a customer/project.</p>
+              </div>
+            </li>
+            <li class="workflow-step reveal delay-2">
+              <span class="step-number">03</span>
+              <div>
+                <h3>Duplicate, update, and export</h3>
+                <p>Duplicate existing profiles for new opportunities, fine-tune wording, and export final PDFs.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="section section-muted" id="roles">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Access Model</p>
+            <h2>Give admin rights only to profile operators.</h2>
+          </div>
+
+          <div class="roles-grid">
+            <article class="role-card reveal">
+              <h3>Super Admin</h3>
+              <p>Owns governance, assigns admin rights, and controls which accounts can manage other admins.</p>
+            </article>
+            <article class="role-card reveal delay-1">
+              <h3>Admin</h3>
+              <p>Builds and maintains consultant profiles for proposals and client conversations.</p>
+            </article>
+            <article class="role-card reveal delay-2">
+              <h3>Consultant</h3>
+              <p>Contributes profile content. No account required if they are not actively managing profiles.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section cta" id="contact">
+        <div class="container cta-inner reveal">
+          <div>
+            <p class="eyebrow">Free And Open Source</p>
+            <h2>Use Prisme at no cost and run it in your own environment.</h2>
+            <p>Deploy using the official Docker image.</p>
+            <a class="btn btn-primary" href="#overview" style="margin-top: 2rem">Start Now</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p>Prisme</p>
+        <p>Built by Maurice Künicke</p>
+        <p id="year-label"></p>
+      </div>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

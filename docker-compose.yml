@@ -1,0 +1,46 @@
+services:
+  backend:
+    image: python:3.12-slim
+    working_dir: /app/backend
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONUNBUFFERED: "1"
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./backend:/app/backend
+      - backend_venv:/opt/venv
+    command: >
+      sh -c "
+      if [ ! -x /opt/venv/bin/python ]; then
+        python -m venv /opt/venv;
+      fi &&
+      /opt/venv/bin/pip install --upgrade pip &&
+      /opt/venv/bin/pip install -r requirements.txt &&
+      /opt/venv/bin/python run_init.py &&
+      /opt/venv/bin/uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app/frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-/api/v1}
+      VITE_PROXY_TARGET: ${VITE_PROXY_TARGET:-http://backend:8000}
+    volumes:
+      - ./frontend:/app/frontend
+      - frontend_node_modules:/app/frontend/node_modules
+    command: >
+      sh -c "
+      npm install &&
+      npm run dev -- --host 0.0.0.0 --port 5173
+      "
+
+volumes:
+  backend_venv:
+  frontend_node_modules:
